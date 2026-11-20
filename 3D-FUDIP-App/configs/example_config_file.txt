@@ -1,0 +1,5 @@
+data_path: D:/Results/ExampleData/liveCell-neuron/data1/
+data_name: liveCell_input1.tif
+psf_path: D:/Results/ExampleData/liveCell-neuron/data1/
+psf_name: psf_liveCell1_crop.tif
+save_path: D:/Results/ExampleData/CodeOcean/FUDIP_MATLAB_APP/results/

@@ -1,0 +1,111 @@
+# general settings
+name: train_FUDIPn2stage_40xSR
+model_type: FUDIPModel
+scale: 1
+num_gpu: 1 # set num_gpu: 0 for cpu mode
+manual_seed: 10
+
+# dataset and data loader settings
+datasets:
+  train:
+    name: microscopy_train
+    type: MicroscopyDataset
+    dataroot_gt: E:/FUDIP_data/spine_fudip_decon/230904_data/crop_raw_data/spine_fudip_decon/40x_simulation/paired_patches/train/gt
+    dataroot_lq: E:/FUDIP_data/spine_fudip_decon/230904_data/crop_raw_data/spine_fudip_decon/40x_simulation/paired_patches/train/low
+    filename_tmpl: "{}"
+
+    num_worker_per_gpu: 4
+    batch_size_per_gpu: 2
+    dataset_enlarge_ratio: 100
+    prefetch_mode: ~
+
+  val:
+    name: microscopy_val
+    type: MicroscopyDataset
+    dataroot_gt: E:/FUDIP_data/spine_fudip_decon/230904_data/crop_raw_data/spine_fudip_decon/40x_simulation/paired_patches/test/gt
+    dataroot_lq: E:/FUDIP_data/spine_fudip_decon/230904_data/crop_raw_data/spine_fudip_decon/40x_simulation/paired_patches/test/low
+    filename_tmpl: "{}"
+
+# network structures
+network_g:
+  type: FUDIPNet2Stage
+  kernel_size: 3
+  n_feat: 16
+  scale_unetfeat: 32
+  unet_depth: 4
+  bias: false
+  use_SCAB: true
+  use_HIN: true
+  use_CSFF: true
+  use_SAM: true
+
+# path
+path:
+  pretrain_network_g: ~
+  strict_load_g: true
+  resume_state: ~
+
+# training settings
+train:
+  use_bf16: true
+  accumulate_grad_batches: 2
+  use_grad_clip: true
+  grad_clip_max_norm: !!float 2.0
+  ema_decay: 0.999
+  optim_g:
+    type: Adam
+    lr: !!float 2e-4
+    weight_decay: 0
+    betas: [0.9, 0.999]
+
+  scheduler:
+    type: CosineAnnealingRestartLR
+    periods: [20000] 
+    restart_weights: [1]
+    eta_min: !!float 1e-6
+
+  total_iter: 20000
+  warmup_iter: 1000
+
+  char_opt:
+    type: CharbonnierLoss
+    loss_weight: 1.0
+    reduction: mean
+    eps: !!float 1e-6
+  ssim_opt:
+    type: SSIMLoss3D
+    loss_weight: 0.2
+  edge_opt:
+    type: EdgeLoss3D
+    loss_weight: 0.02
+    loss_type: charbonnier # charbonnier or l1
+
+# validation settings
+val:
+  val_freq: !!float 1e3
+  save_img: true
+  metrics:
+    psnr_3d:
+      type: calculate_psnr_3d
+      data_range: 1.0
+      crop_border: 0
+      better: higher
+    ssim_3d:
+      type: calculate_ssim_3d
+      data_range: 1.0
+      crop_border: 0
+      better: higher
+
+# logging settings
+logger:
+  print_freq: 100
+  save_checkpoint_freq: !!float 2e3
+  use_tb_logger: true
+  wandb:
+    project: ~
+    resume_id: ~
+
+# dist training settings
+dist_params:
+  backend: nccl
+  port: 29500

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <title>Load Data</title>
+  <ellipse cx="12.0" cy="5.699999999999999" rx="7.800000000000001" ry="2.4999999999999996" stroke="#344054" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="4.2,5.7 4.2,15.8" stroke="#344054" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="19.8,5.7 19.8,15.8" stroke="#344054" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="4.2,10.7 5.2,12 8.2,13.1" stroke="#344054" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="19.8,10.7 18.8,12 15.8,13.1" stroke="#344054" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="12,9 12,18.1" stroke="#2563EB" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="8.9,15 12,18.2 15.1,15" stroke="#2563EB" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="5.1,16.3 6.2,18 9,19.2 12,19.7 15,19.2 17.8,18 18.9,16.3" stroke="#344054" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

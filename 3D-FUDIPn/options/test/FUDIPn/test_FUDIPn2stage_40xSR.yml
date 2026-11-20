@@ -1,0 +1,50 @@
+# general settings
+name: train_FUDIPn2stage_40xSR
+model_type: FUDIPModel
+scale: 1
+num_gpu: 1 # set num_gpu: 0 for cpu mode
+manual_seed: 10
+
+# dataset and data loader settings
+datasets:
+  train:
+    name: microscopy_train
+    type: MicroscopyDataset
+    dataroot_gt: E:/FUDIP_data/spine_fudip_decon/230904_data/selected_data/spine_fudip_decon/40x_simulation/paired_patches/train/gt
+    dataroot_lq: E:/FUDIP_data/spine_fudip_decon/230904_data/selected_data/spine_fudip_decon/40x_simulation/paired_patches/train/low
+    filename_tmpl: "{}"
+
+    num_worker_per_gpu: 4
+    batch_size_per_gpu: 2
+    dataset_enlarge_ratio: 100
+    prefetch_mode: ~
+    normalize_min_max: true
+
+  val:
+    name: microscopy_val
+    type: MicroscopyDataset
+    dataroot_gt: E:/FUDIP_data/spine_fudip_decon/230904_data/selected_data/spine_fudip_decon/40x_simulation/paired_patches/test/gt
+    dataroot_lq: E:/FUDIP_data/spine_fudip_decon/230904_data/selected_data/spine_fudip_decon/40x_simulation/paired_patches/test/low
+    filename_tmpl: "{}"
+    normalize_min_max: true
+
+
+# network structures
+network_g:
+  type: FUDIPn2Stage
+  kernel_size: 3
+  n_feat: 16
+  scale_unetfeat: 32
+  unet_depth: 4
+  bias: false
+  use_SCAB: true
+  use_HIN: true
+  use_ISFF: true
+  use_SAM: true
+  use_global_residual: true
+
+# path
+path:
+  pretrain_network_g: D:/Code/FUDIP_proj/fudipn-basicsr/experiments/train_FUDIP_2stage_40xSR/models/net_g_latest.pth
+  strict_load_g: true
+  resume_state: ~
